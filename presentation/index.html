@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="fr">
+    <meta charset="UTF-8">
+    <!--Page Title-->
+    <title>Hack-Oeil - Les CTFs de Cyrhades</title>
+    <!--Meta Keywords and Description-->
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <link rel="shortcut icon" href="./assets/images/favicon.ico" title="Favicon" />
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="./assets/css/github.min.css">
+    <script src="./assets/js/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Vérifie si la fenêtre est dans une iframe
+            if (window.self !== window.top) {
+                document.querySelectorAll('a').forEach((link) => {
+                    link.addEventListener('click', (event) => {
+                        const a = event.target.closest('a[href^="http"]');
+                        if (a) {
+                            event.preventDefault();
+                            window.parent.postMessage({
+                                type: "open-external",
+                                url: a.href
+                            }, "*");
+                        }
+                    });
+                });
+            }
+            // Active la coloration syntaxique :
+            if (window.hljs) {
+                hljs.highlightAll();
+            } else {
+                console.error("Highlight.js non chargé !");
+            }
+        });
+    </script>
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <!--Main Content Area-->
+        <main id="content">
+            <!--Ctf-->
+            <section class="ctf scrollto">
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>Challenge #339</h3>
+                            <h2 class="section-title">Elliptic Addventure</h2>
+                            <p>Vous devez retrouver le flag caché dans les coordonnées des points donnés.</p>
+                            <h4>Fichiers à étudier</h4>
+                            <p>
+                                - elliptic-addventure.sage<br />
+                                - output.txt
+                            </p>
+                            <br /><br />
+                            <p>
+                                <strong>elliptic-addventure.sage</strong><br />
+                            <pre><code class="language-python">from Crypto.Util.number import bytes_to_long
+
+flag = open("flag.txt", "rb").read().strip()
+assert len(flag) == 64
+
+p = 115792089210356248762697446949407573530086143415290314195533631308867097853951
+a = -3
+b = 41058363725152142129326129780047268409114441015993725554835256314039467401291
+
+K = GF(p)
+E = EllipticCurve([K(a), K(b)])
+
+mid = len(flag) // 2
+Ax = K(bytes_to_long(flag[:mid]))
+Bx = K(bytes_to_long(flag[mid:]))
+
+A = E.lift_x(Ax)
+B = E.lift_x(Bx)
+
+print(f"{A + B = }")
+print(f"{A - B = }")
+</code></pre>
+                            <br /><br />
+                            <strong>output.txt</strong><br />
+                            <pre><code class="language-sage">A + B = (65355407912556110148433442581541116153096561277895556722873533689053268966181 : 105815222725531774810979264207056456440531378690488283731984033593201027022521 : 1)
+A - B = (103762781993230069010083485164887172361256204634523864861966420595029658052179 : 76878428888684998206116229633819067250185142636730603625369142867437006615111 : 1)
+</code></pre>
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>FCSC 2023</h3>
+                            <h2 class="section-title">Hackropole</h2>
+                            <p class="section-subtitle">
+                                Lien officiel :
+                                <a target="_blank"
+                                    href="https://hackropole.fr/fr/challenges/crypto/fcsc2023-crypto-elliptic-addventure/">FCSC
+                                    2023 -
+                                    Elliptic Addventure
+                                </a>
+                                <br />
+                                Auteur: Cryptanalyse
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>Apprentissage</h3>
+                            <h2 class="section-title">Documentations et Vidéos</h2>
+                            <p class="section-subtitle">
+                                Aucune documentation pour le moment
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>Aide</h3>
+                            <h2 class="section-title">Conseils et indices</h2>
+                            <p class="section-subtitle">
+                                <a target="_blank"
+                                    href="https://discord.com/channels/1175764392307077120/1175764601716092948">Fil sur
+                                    le Discord</a>
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </section>
+            <!--End of Ctf-->
+        </main>
+        <!--End Main Content Area-->
+
+        <a id="scrollUp" href="#wrapper" style="position: fixed; z-index: 1000;"
+            aria-label="Remonter en haut de la page" title="Remonter en tête de site"></a>
+    </div>
+</body>
+
+</html>
